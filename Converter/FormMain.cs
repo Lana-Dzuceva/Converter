@@ -6,6 +6,7 @@ namespace Converter
 {
     public partial class FormMain : Form
     {
+
         Dictionary<string, double> measures = new Dictionary<string, double>()
 {
             {"Millimeter",  1000},
@@ -16,6 +17,7 @@ namespace Converter
         public FormMain()
         {
             InitializeComponent();
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -44,9 +46,15 @@ namespace Converter
             }
             else
             {
-                textBoxOutput.Text = Convert.ToString(int.Parse(num) * measures[comboBoxFinalMeasure.Text] / measures[comboBoxInitiallyMeasure.Text]);
+                try
+                {
+                    textBoxOutput.Text = Convert.ToString(Convert.ToDouble(num) * measures[comboBoxFinalMeasure.Text] / measures[comboBoxInitiallyMeasure.Text]);
+                }
+                catch
+                {
+                    MessageBox.Show("Введите число!");
+                }
             }
-
         }
     }
 }
